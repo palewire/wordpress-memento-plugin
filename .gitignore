@@ -1,3 +1,4 @@
+wordpress/
 *.log
 .htaccess
 sitemap.xml
