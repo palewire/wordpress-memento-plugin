@@ -9,3 +9,11 @@ This is a work in progress and should not be expected to work.
 ```bash
 $ sudo apt-get install php5 php5-dev php-pear phpunit
 ```
+
+## Running tests
+
+Unittests are written for ``phpunit`` and executed like so:
+
+```bash
+$ make test
+```
