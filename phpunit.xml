@@ -10,4 +10,9 @@
             <directory prefix="test-" suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+      <whitelist processUncoveredFilesFromWhitelist="true">
+        <file>./memento/memento.php</file>
+      </whitelist>
+    </filter>
 </phpunit>

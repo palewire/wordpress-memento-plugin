@@ -32,4 +32,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+# defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
