@@ -4,6 +4,10 @@ A plugin for Wordpress web sites to enable the Memento framework for time-based 
 
 This is a work in progress and should not be expected to work.
 
+[![Build Status](https://travis-ci.org/pastpages/wordpress-memento-plugin.svg?branch=master)](https://travis-ci.org/pastpages/wordpress-memento-plugin)
+
+* Testing: [travis-ci.org/pastpages/wordpress-memento-plugin](https://travis-ci.org/pastpages/wordpress-memento-plugin)
+
 ## Getting started
 
 ```bash
