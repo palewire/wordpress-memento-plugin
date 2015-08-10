@@ -14,6 +14,13 @@ This is a work in progress and should not be expected to work.
 $ sudo apt-get install php5 php5-dev php-pear phpunit
 ```
 
+Create a symbolic link between the source code and the plugin directory in
+your local Wordpress installation.
+
+```bash
+$ ln -s `pwd`/memento/ /path-to-your-wordpress/wp-content/plugins/memento
+```
+
 ## Running tests
 
 Unittests are written for ``phpunit`` and executed like so:
