@@ -1,4 +1,4 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 /*
 Plugin Name: Memento
 Plugin URI:  http://URI_Of_Page_Describing_Plugin_and_Updates
@@ -33,3 +33,8 @@ THE SOFTWARE.
 */
 
 # defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+function pmg_rewrite_add_rewrites()
+{
+    add_rewrite_rule('hp/(d+)/?', 'index.php?p=$matches[1]', 'top');
+}
+add_action( 'init', 'pmg_rewrite_add_rewrites' );
