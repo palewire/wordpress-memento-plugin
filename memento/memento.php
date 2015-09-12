@@ -33,8 +33,30 @@ THE SOFTWARE.
 */
 
 # defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
-function pmg_rewrite_add_rewrites()
+
+add_action( 'init', 'wp_memento_add_rewrites' );
+function wp_memento_add_rewrites()
 {
-    add_rewrite_rule('hp/(d+)/?', 'index.php?p=$matches[1]', 'top');
+    add_rewrite_rule(
+        '^timemap/(.*)/?',
+        'index.php?timemap_url=$matches[1]',
+        'top'
+    );
 }
-add_action( 'init', 'pmg_rewrite_add_rewrites' );
+
+add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
+function wp_memento_rewrite_add_vars( $vars )
+{
+    $vars[] = 'timemap_url';
+    return $vars;
+}
+
+add_action( 'template_redirect', 'wp_memento_catch_vars' );
+function wp_memento_catch_vars()
+{
+    if( get_query_var( 'timemap_url' ) )
+    {
+        die( get_query_var( 'timemap_url' ) );
+        #exit();
+    }
+}
