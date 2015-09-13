@@ -35,15 +35,20 @@ THE SOFTWARE.
 # defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 include "functions.php";
 
+
 function wp_memento_add_rewrites()
 {
+    # The timemap list page
     add_rewrite_rule(
         '^timemap/(.*)',
         'index.php?timemap_url=$matches[1]',
         'top'
     );
+    # The post revision detail page
+    add_rewrite_endpoint('revision', EP_PERMALINK);
 }
 add_action( 'init', 'wp_memento_add_rewrites' );
+
 
 function wp_memento_rewrite_add_vars( $vars )
 {
@@ -55,6 +60,7 @@ add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
 
 function wp_memento_catch_vars()
 {
+    # Handle a timemap list request
     if(get_query_var( 'timemap_url' ))
     {
         # Get the timemap URL and clean it up
@@ -80,6 +86,14 @@ function wp_memento_catch_vars()
         array_unshift($revision_list, $post);
         include('timemap-list.php');
         exit;
+    }
+
+    # Handle a post revision detail page request
+    if(is_singular() && get_query_var('revision'))
+    {
+        $revision = get_query_var('revision');
+        die("REVISION: ". $revision);
+        exit();
     }
 }
 add_action( 'template_redirect', 'wp_memento_catch_vars' );
