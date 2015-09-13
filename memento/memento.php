@@ -102,7 +102,7 @@ function wp_momento_content_filter($content) {
         // But if there is a revision id then we get to work.
         } else {
             # Remove the filer to avoid triggering an infinite loop
-            remove_filter('the_content', 'prd_display_post_revisions');
+            remove_filter('the_content', 'wp_momento_content_filter');
             # Query this revision from the database
             # (Need a 404 when the id isn't found in the database)
             $revision_id = get_query_var('revision');
@@ -110,7 +110,7 @@ function wp_momento_content_filter($content) {
             # Render the content using this older data
             $rev_content = apply_filters('the_content', $revision->post_content);
             # Put the filter override back on so we can use it again
-            add_filter('the_content', 'prd_display_post_revisions');
+            add_filter('the_content', 'wp_momento_content_filter');
             # Return the revision content
             return $rev_content;
         }
