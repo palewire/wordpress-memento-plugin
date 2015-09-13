@@ -54,13 +54,20 @@ function wp_memento_rewrite_add_vars( $vars )
 add_action( 'template_redirect', 'wp_memento_catch_vars' );
 function wp_memento_catch_vars()
 {
+    global $wp_query;
     if( get_query_var( 'timemap_url' ) )
     {
-        header('Content-Type: application/link-format; charset=' . get_option('blog_charset') );
         $timemap_url = get_query_var( 'timemap_url' );
         $timemap_url = str_replace("http:/", "http://", $timemap_url);
-        echo $postid = url_to_postid( $timemap_url );
+        $post_id = url_to_postid( $timemap_url );
+        if ($post_id == 0) {
+           include( get_query_template( '404' ) );
+           exit;
+        }
+        header(
+            'Content-Type: application/link-format; charset=' . get_option('blog_charset')
+        );
         echo '<'. $timemap_url. '>;rel="original",';
-        exit();
+        exit;
     }
 }
