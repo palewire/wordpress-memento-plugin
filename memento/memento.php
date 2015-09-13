@@ -75,6 +75,7 @@ function wp_memento_catch_vars()
         header(
             'Content-Type: application/link-format; charset=' . get_option('blog_charset')
         );
+        $revision_list = [1, 2, 3];
         include('timemap-list.php');
         exit;
     }

@@ -7,6 +7,9 @@
  <<?php echo get_timemap_list_url($timemap_url) ?>>
    ; rel="self";type="application/link-format"
    ; from="{{ minimum_datetime|httpdate }}"
-   ; until="{{ maximum_datetime|httpdate }}",{% for item in items %}
- <{{ item.link }}>
-   ; rel="{% if item.first %}first {% endif %}{% if item.last %}last {% endif %}memento"; datetime="{{ item.datetime|httpdate }}"{% if not forloop.last %},{% endif %}{% endfor %}
+   ; until="{{ maximum_datetime|httpdate }}",
+<?php $i=0; $len=count($revision_list); foreach($revision_list as $revision) :?>
+   <{{ item.link }}>
+   ; rel="<?php if ($i == 0) echo 'first '; if ($i == $len-1) echo 'last ' ?>memento"; datetime="{{ item.datetime|httpdate }}"{% if not forloop.last %},{% endif %}
+<?php $i++; ?>
+<?php endforeach; ?>

@@ -9,3 +9,9 @@ function get_timemap_list_url($post_url)
     $base_url = get_site_url() . "/timemap/";
     return $base_url . $post_url;
 }
+
+
+function get_post_drafts($post_id)
+{
+
+}
