@@ -33,6 +33,7 @@ THE SOFTWARE.
 */
 
 # defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+include "functions.php";
 
 add_action( 'init', 'wp_memento_add_rewrites' );
 function wp_memento_add_rewrites()
@@ -54,20 +55,27 @@ function wp_memento_rewrite_add_vars( $vars )
 add_action( 'template_redirect', 'wp_memento_catch_vars' );
 function wp_memento_catch_vars()
 {
-    global $wp_query;
-    if( get_query_var( 'timemap_url' ) )
+    if(get_query_var( 'timemap_url' ))
     {
+        # Get the timemap URL and clean it up
         $timemap_url = get_query_var( 'timemap_url' );
         $timemap_url = str_replace("http:/", "http://", $timemap_url);
-        $post_id = url_to_postid( $timemap_url );
+        $timemap_url .= "/";
+
+        # Pull the original post from the database
+        $post_id = url_to_postid($timemap_url);
+
+        # If it doesn't exist, throw a 404 error
         if ($post_id == 0) {
-           include( get_query_template( '404' ) );
+           include(get_query_template( '404' ));
            exit;
         }
+
+        # Render the timemap response
         header(
             'Content-Type: application/link-format; charset=' . get_option('blog_charset')
         );
-        echo '<'. $timemap_url. '>;rel="original",';
+        include('timemap-list.php');
         exit;
     }
 }
