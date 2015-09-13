@@ -38,7 +38,7 @@ add_action( 'init', 'wp_memento_add_rewrites' );
 function wp_memento_add_rewrites()
 {
     add_rewrite_rule(
-        '^timemap/(.*)/?',
+        '^timemap/(.*)',
         'index.php?timemap_url=$matches[1]',
         'top'
     );
@@ -56,7 +56,11 @@ function wp_memento_catch_vars()
 {
     if( get_query_var( 'timemap_url' ) )
     {
-        die( get_query_var( 'timemap_url' ) );
-        #exit();
+        header('Content-Type: application/link-format; charset=' . get_option('blog_charset') );
+        $timemap_url = get_query_var( 'timemap_url' );
+        $timemap_url = str_replace("http:/", "http://", $timemap_url);
+        echo $postid = url_to_postid( $timemap_url );
+        echo '<'. $timemap_url. '>;rel="original",';
+        exit();
     }
 }
