@@ -64,7 +64,7 @@ function wp_memento_catch_vars()
     if(get_query_var('timemap_url'))
     {
         # Get the timemap URL and clean it up
-        $timemap_url = get_query_var( 'timemap_url' );
+        $timemap_url = get_query_var('timemap_url');
         $timemap_url = str_replace("http:/", "http://", $timemap_url);
         $timemap_url .= "/";
 
@@ -91,15 +91,26 @@ function wp_memento_catch_vars()
 
     if(get_query_var('revision')) {
         $revision_id = get_query_var('revision');
-        if (wp_is_post_revision($revision_id) || is_single($revision_id)) {
-            pass;
+        if (wp_is_post_revision($revision_id)) {
+            # Add Memento-Datetime header
+            $revision = wp_get_post_revision($revision_id);
+            header('Momento-Datetime: ' . $revision->post_date_gmt . " GMT;");
+            $original_url = get_post_permalink($revision->post_parent);
+            $timemap_url = get_timemap_list_permalink($original_url);
+            $link_header = '<' . $original_url . '>; rel="original",';
+            $link_header .= '<' . $timemap_url . '>; rel="timemap"; type="application/link-format"';
+            header('Link: ' . $link_header, false);
         } else {
-           include(get_query_template('404'));
-           exit;
+            if (is_single($revision_id)) {
+                pass;
+            } else {
+               include(get_query_template('404'));
+               exit;
+            }
         }
     }
 }
-add_action( 'template_redirect', 'wp_memento_catch_vars' );
+add_action('template_redirect', 'wp_memento_catch_vars');
 
 
 function wp_momento_content_filter($content) {
