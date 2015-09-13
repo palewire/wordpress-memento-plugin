@@ -102,7 +102,7 @@ function wp_memento_catch_vars()
             header('Link: ' . $link_header, false);
         } else {
             if (is_single($revision_id)) {
-                pass;
+                # Do nothing
             } else {
                include(get_query_template('404'));
                exit;
