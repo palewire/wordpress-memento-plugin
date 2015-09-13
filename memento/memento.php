@@ -61,7 +61,7 @@ add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
 function wp_memento_catch_vars()
 {
     # Handle a timemap list request
-    if(get_query_var( 'timemap_url' ))
+    if(get_query_var('timemap_url'))
     {
         # Get the timemap URL and clean it up
         $timemap_url = get_query_var( 'timemap_url' );
@@ -88,6 +88,16 @@ function wp_memento_catch_vars()
         # Finish
         exit;
     }
+
+    if(get_query_var('revision')) {
+        $revision_id = get_query_var('revision');
+        if (wp_is_post_revision($revision_id) || is_single($revision_id)) {
+            pass;
+        } else {
+           include(get_query_template('404'));
+           exit;
+        }
+    }
 }
 add_action( 'template_redirect', 'wp_memento_catch_vars' );
 
@@ -95,16 +105,13 @@ add_action( 'template_redirect', 'wp_memento_catch_vars' );
 function wp_momento_content_filter($content) {
     if(is_singular() && get_query_var('revision'))
     {
-        // If this a normal post and not a revision
-        // then nothing special should happen
-        if (is_single(get_query_var('revision'))) {
-            return $content;
-        // But if there is a revision id then we get to work.
-        } else {
+        # Get the revision id
+        $revision_id = get_query_var('revision');
+        # Verify that it is a revision
+        if (wp_is_post_revision($revision_id)) {
             # Remove the filer to avoid triggering an infinite loop
             remove_filter('the_content', 'wp_momento_content_filter');
             # Query this revision from the database
-            # (Need a 404 when the id isn't found in the database)
             $revision_id = get_query_var('revision');
             $revision = wp_get_post_revision($revision_id);
             # Render the content using this older data
@@ -114,6 +121,14 @@ function wp_momento_content_filter($content) {
             # Return the revision content
             return $rev_content;
         }
+        # If this a normal post and not a revision
+        # then nothing special should happen
+        if (is_single($revision_id)) {
+            return $content;
+        }
+        # If it's none of the above just return the normal content.
+        # Through perhaps we should have this raise a 404 or something.
+        return $content;
     } else {
         return $content;
     }
