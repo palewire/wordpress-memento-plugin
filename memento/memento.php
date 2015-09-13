@@ -35,7 +35,6 @@ THE SOFTWARE.
 # defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 include "functions.php";
 
-add_action( 'init', 'wp_memento_add_rewrites' );
 function wp_memento_add_rewrites()
 {
     add_rewrite_rule(
@@ -44,15 +43,16 @@ function wp_memento_add_rewrites()
         'top'
     );
 }
+add_action( 'init', 'wp_memento_add_rewrites' );
 
-add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
 function wp_memento_rewrite_add_vars( $vars )
 {
     $vars[] = 'timemap_url';
     return $vars;
 }
+add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
 
-add_action( 'template_redirect', 'wp_memento_catch_vars' );
+
 function wp_memento_catch_vars()
 {
     if(get_query_var( 'timemap_url' ))
@@ -82,3 +82,4 @@ function wp_memento_catch_vars()
         exit;
     }
 }
+add_action( 'template_redirect', 'wp_memento_catch_vars' );

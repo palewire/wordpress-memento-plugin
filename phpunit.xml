@@ -11,8 +11,10 @@
         </testsuite>
     </testsuites>
     <filter>
+    <!--
       <whitelist processUncoveredFilesFromWhitelist="true">
         <file>./memento/memento.php</file>
       </whitelist>
+    -->
     </filter>
 </phpunit>
