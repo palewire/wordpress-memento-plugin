@@ -61,80 +61,87 @@ add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
 function wp_memento_catch_vars()
 {
     # Handle a timemap list request
-    if(get_query_var('timemap_url'))
+    if( get_query_var( 'timemap_url' ) )
     {
         # Get the timemap URL and clean it up
-        $timemap_url = get_query_var('timemap_url');
-        $timemap_url = str_replace("http:/", "http://", $timemap_url);
+        $timemap_url = get_query_var( 'timemap_url' );
+        $timemap_url = str_replace( "http:/", "http://", $timemap_url );
         $timemap_url .= "/";
 
         # Pull the original post from the database
-        $post_id = url_to_postid($timemap_url);
+        $post_id = url_to_postid( $timemap_url );
 
         # If it doesn't exist, throw a 404 error
-        if ($post_id == 0) {
-           include(get_query_template('404'));
+        if ( $post_id == 0 )
+        {
+           include( get_query_template( '404' ) );
            exit;
         }
 
         # Render the timemap response
-        $charset = get_option('blog_charset');
-        header('Content-Type: application/link-format; charset=' . $charset);
-        $post = get_post($post_id);
-        $revision_list = get_post_revisions($post_id);
-        array_unshift($revision_list, $post);
-        include('timemap-list.php');
+        $charset = get_option( 'blog_charset' );
+        header( 'Content-Type: application/link-format; charset=' . $charset );
+        $post = get_post( $post_id );
+        $revision_list = get_post_revisions( $post_id );
+        array_unshift( $revision_list, $post );
+        include( 'timemap-list.php' );
 
         # Finish
         exit;
     }
 
-    if(get_query_var('revision')) {
-        $revision_id = get_query_var('revision');
-        if (wp_is_post_revision($revision_id)) {
+    if( get_query_var( 'revision' ) )
+    {
+        $revision_id = get_query_var( 'revision' );
+        if ( wp_is_post_revision( $revision_id ) )
+        {
             # Add Memento-Datetime header
-            $revision = wp_get_post_revision($revision_id);
-            header('Momento-Datetime: ' . $revision->post_date_gmt . " GMT;");
-            $original_url = get_post_permalink($revision->post_parent);
-            $timemap_url = get_timemap_list_permalink($original_url);
+            $revision = wp_get_post_revision( $revision_id );
+            header( 'Momento-Datetime: ' . $revision->post_date_gmt . " GMT;" );
+            $original_url = get_post_permalink( get_post( $revision->post_parent ) );
+            $timemap_url = get_timemap_list_permalink( $original_url );
             $link_header = '<' . $original_url . '>; rel="original",';
             $link_header .= '<' . $timemap_url . '>; rel="timemap"; type="application/link-format"';
-            header('Link: ' . $link_header, false);
+            header( 'Link: ' . $link_header, false );
         } else {
-            if (is_single($revision_id)) {
+            if ( is_single( $revision_id ) )
+            {
                 # Do nothing
             } else {
-               include(get_query_template('404'));
+               include( get_query_template( '404' ) );
                exit;
             }
         }
     }
 }
-add_action('template_redirect', 'wp_memento_catch_vars');
+add_action( 'template_redirect', 'wp_memento_catch_vars' );
 
 
-function wp_momento_content_filter($content) {
-    if(is_singular() && get_query_var('revision'))
+function wp_momento_content_filter( $content )
+{
+    if( is_singular() && get_query_var( 'revision' ) )
     {
         # Get the revision id
-        $revision_id = get_query_var('revision');
+        $revision_id = get_query_var( 'revision' );
         # Verify that it is a revision
-        if (wp_is_post_revision($revision_id)) {
+        if( wp_is_post_revision( $revision_id ) )
+        {
             # Remove the filer to avoid triggering an infinite loop
-            remove_filter('the_content', 'wp_momento_content_filter');
+            remove_filter( 'the_content', 'wp_momento_content_filter' );
             # Query this revision from the database
-            $revision_id = get_query_var('revision');
-            $revision = wp_get_post_revision($revision_id);
+            $revision_id = get_query_var( 'revision' );
+            $revision = wp_get_post_revision( $revision_id );
             # Render the content using this older data
-            $rev_content = apply_filters('the_content', $revision->post_content);
+            $rev_content = apply_filters( 'the_content', $revision->post_content );
             # Put the filter override back on so we can use it again
-            add_filter('the_content', 'wp_momento_content_filter');
+            add_filter( 'the_content', 'wp_momento_content_filter' );
             # Return the revision content
             return $rev_content;
         }
         # If this a normal post and not a revision
         # then nothing special should happen
-        if (is_single($revision_id)) {
+        if( is_single( $revision_id ) )
+        {
             return $content;
         }
         # If it's none of the above just return the normal content.
@@ -144,6 +151,6 @@ function wp_momento_content_filter($content) {
         return $content;
     }
 }
-add_filter('the_content', 'wp_momento_content_filter');
+add_filter( 'the_content', 'wp_momento_content_filter' );
 #add_filter('single_post_title', 'prd_display_post_revisions');
 #add_filter('the_title', 'prd_display_post_revisions');
