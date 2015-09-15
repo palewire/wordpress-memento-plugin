@@ -89,7 +89,11 @@ function wp_memento_catch_vars()
         # Finish
         exit;
     }
+}
+add_action( 'template_redirect', 'wp_memento_catch_vars' );
 
+
+function wp_memento_add_headers() {
     if( get_query_var( 'revision' ) )
     {
         $revision_id = get_query_var( 'revision' );
@@ -98,7 +102,8 @@ function wp_memento_catch_vars()
             # Add Memento-Datetime header
             $revision = wp_get_post_revision( $revision_id );
             header( 'Momento-Datetime: ' . $revision->post_date_gmt . " GMT;" );
-            $original_url = get_post_permalink( get_post( $revision->post_parent ) );
+            $original_post = get_post( $revision->post_parent );
+            $original_url = get_permalink( $original_post );
             $timemap_url = get_timemap_list_permalink( $original_url );
             $link_header = '<' . $original_url . '>; rel="original",';
             $link_header .= '<' . $timemap_url . '>; rel="timemap"; type="application/link-format"';
@@ -114,7 +119,7 @@ function wp_memento_catch_vars()
         }
     }
 }
-add_action( 'template_redirect', 'wp_memento_catch_vars' );
+add_action( 'wp_head', 'wp_memento_add_headers' );
 
 
 function wp_momento_content_filter( $content )
