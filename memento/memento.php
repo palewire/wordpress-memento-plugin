@@ -44,6 +44,12 @@ function wp_memento_add_rewrites()
         'index.php?timemap_url=$matches[1]',
         'top'
     );
+    # The timegate request portal
+    add_rewrite_rule(
+        '^timegate/?(.*)',
+        'index.php?timegate_url=$matches[1]',
+        'top'
+    );
     # The post revision detail page
     add_rewrite_endpoint('revision', EP_PERMALINK);
 }
@@ -53,6 +59,7 @@ add_action( 'init', 'wp_memento_add_rewrites' );
 function wp_memento_rewrite_add_vars( $vars )
 {
     $vars[] = 'timemap_url';
+    $vars[] = 'timegate_url';
     return $vars;
 }
 add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
@@ -60,6 +67,38 @@ add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
 
 function wp_memento_catch_vars()
 {
+    # Handle a timegate request
+    if( get_query_var( 'timegate_url' ) )
+    {
+        # Get the requested URL and clean it up
+        $timegate_url = get_query_var( 'timegate_url' );
+        $timegate_url = str_replace( "http:/", "http://", $timegate_url );
+        $timegate_url .= "/";
+
+        # Pull the original post from the database
+        $post_id = url_to_postid( $timegate_url );
+
+        # If it doesn't exist, throw a 404 error
+        if( $post_id == 0 )
+        {
+           include( get_query_template( '404' ) );
+           exit;
+        }
+
+        # Get the requested memento datetime
+        // $accept_datetime = get_header( "Accept-Datetime" );
+
+        // # If no datetime is provided, redirect to the most recent version
+        // if( $accept_datetime == '' )
+        // {
+        //     # Do that here
+        //     wp_redirect( $timegate_url );
+        //     exit();
+        // }
+
+        exit;
+
+    }
     # Handle a timemap list request
     if( get_query_var( 'timemap_url' ) )
     {
