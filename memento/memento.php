@@ -39,7 +39,7 @@ include "functions.php";
  * Add a set of custom URLs to provide custom endpoints, redirects
  * and headers for the core memento features
  *
- * @since 0.1
+ * @since 0.0.1
  */
 add_action( 'init', 'wp_memento_add_rewrites' );
 function wp_memento_add_rewrites()
@@ -64,7 +64,7 @@ function wp_memento_add_rewrites()
 /**
  * Add variables introduced by the custom URLs to the Wordpress environment
  *
- * @since 0.1
+ * @since 0.0.1
  *
  * @param array $vars List of Wordpress variables
  * @return array The submitted list with custom memento variables appended
@@ -82,7 +82,7 @@ function wp_memento_rewrite_add_vars( $vars )
  * Processes the custom memento variables to return timegate and timemap
  * responses
  *
- * @since 0.1
+ * @since 0.0.1
  */
 add_action( 'template_redirect', 'wp_memento_catch_vars' );
 function wp_memento_catch_vars()
@@ -159,7 +159,7 @@ function wp_memento_catch_vars()
  * Allows the creation of detail pages for each post revision and
  * adds headers that signal the site supports the memento system.
  *
- * @since 0.1
+ * @since 0.0.1
  */
 add_action( 'wp_head', 'wp_memento_add_headers' );
 function wp_memento_add_headers() {
@@ -193,7 +193,7 @@ function wp_memento_add_headers() {
  * Allows the creation of detail pages for each post revision and
  * reformts elements of the template to publish content from older revisions
  *
- * @since 0.1
+ * @since 0.0.1
  *
  * @param string $content The post content prior to being published
  * @return string The post content that will actually be published, potentially from a past revision
