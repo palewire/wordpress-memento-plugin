@@ -67,7 +67,7 @@ function wp_memento_add_rewrites()
  * @since 0.1
  *
  * @param array $vars List of Wordpress variables
- * @return Array The submitted list with custom memento variables appended
+ * @return array The submitted list with custom memento variables appended
  */
 add_filter( 'query_vars', 'wp_memento_rewrite_add_vars' );
 function wp_memento_rewrite_add_vars( $vars )
