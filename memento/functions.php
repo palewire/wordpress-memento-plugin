@@ -1,7 +1,7 @@
 <?php # -*- coding: utf-8 -*-
 /*
-    A hodgepodge of utilities used throughout this plugin.
-*/
+ * A hodgepodge of utilities used throughout this plugin.
+ */
 
 /**
  * Returns a link to the timemap link list given a post URL
