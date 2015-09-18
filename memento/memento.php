@@ -171,6 +171,8 @@ function wp_memento_add_headers() {
             // Add Memento-Datetime header
             $revision = wp_get_post_revision( $revision_id );
             header( 'Momento-Datetime: ' . $revision->post_date_gmt . " GMT;" );
+            // Add Link header that provides directions to the timemap
+            // This still needs to include timegate directions as well
             $original_post = get_post( $revision->post_parent );
             $original_url = get_permalink( $original_post );
             $timemap_url = get_timemap_list_permalink( $original_url );
@@ -191,7 +193,7 @@ function wp_memento_add_headers() {
 
 /**
  * Allows the creation of detail pages for each post revision and
- * reformts elements of the template to publish content from older revisions
+ * reformats elements of the template to publish content from older revisions
  *
  * @since 0.0.1
  *
@@ -199,8 +201,8 @@ function wp_memento_add_headers() {
  * @return string The post content that will actually be published, potentially from a past revision
  */
 add_filter( 'the_content', 'wp_momento_content_filter' );
-//add_filter('single_post_title', 'prd_display_post_revisions');
-//add_filter('the_title', 'prd_display_post_revisions');
+//add_filter('single_post_title', 'wp_momento_content_filter');
+//add_filter('the_title', 'wp_momento_content_filter');
 function wp_momento_content_filter( $content )
 {
     if( is_singular() && get_query_var( 'revision' ) )
