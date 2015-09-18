@@ -32,30 +32,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-# defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 include "functions.php";
 
 
 /**
  * Add a set of custom URLs to provide custom memento endpoints, redirects
- * and headers.
+ * and headers for the core memento features
  */
 add_action( 'init', 'wp_memento_add_rewrites' );
 function wp_memento_add_rewrites()
 {
-    # The timemap list page
+    // 1. The timemap list page
     add_rewrite_rule(
         '^timemap/(.*)',
         'index.php?timemap_url=$matches[1]',
         'top'
     );
-    # The timegate request portal
+    // 2. The timegate request portal
     add_rewrite_rule(
         '^timegate/?(.*)',
         'index.php?timegate_url=$matches[1]',
         'top'
     );
-    # The post revision detail page
+    // 3. The post revision detail page
     add_rewrite_endpoint('revision', EP_PERMALINK);
 }
 
@@ -79,31 +78,31 @@ function wp_memento_rewrite_add_vars( $vars )
 add_action( 'template_redirect', 'wp_memento_catch_vars' );
 function wp_memento_catch_vars()
 {
-    # Handle a timegate request
+    // Handle a timegate request
     if( get_query_var( 'timegate_url' ) )
     {
-        # Get the requested URL and clean it up
+        // Get the requested URL and clean it up
         $timegate_url = get_query_var( 'timegate_url' );
         $timegate_url = str_replace( "http:/", "http://", $timegate_url );
         $timegate_url .= "/";
 
-        # Pull the original post from the database
+        // Pull the original post from the database
         $post_id = url_to_postid( $timegate_url );
 
-        # If it doesn't exist, throw a 404 error
+        // If it doesn't exist, throw a 404 error
         if( $post_id == 0 )
         {
            include( get_query_template( '404' ) );
            exit;
         }
 
-        # Get the requested memento datetime
+        // Get the requested memento datetime
         // $accept_datetime = get_header( "Accept-Datetime" );
 
-        // # If no datetime is provided, redirect to the most recent version
+        // If no datetime is provided, redirect to the most recent version
         // if( $accept_datetime == '' )
         // {
-        //     # Do that here
+        //     // Do that here
         //     wp_redirect( $timegate_url );
         //     exit();
         // }
@@ -111,25 +110,25 @@ function wp_memento_catch_vars()
         exit;
 
     }
-    # Handle a timemap list request
+    // Handle a timemap list request
     if( get_query_var( 'timemap_url' ) )
     {
-        # Get the timemap URL and clean it up
+        // Get the timemap URL and clean it up
         $timemap_url = get_query_var( 'timemap_url' );
         $timemap_url = str_replace( "http:/", "http://", $timemap_url );
         $timemap_url .= "/";
 
-        # Pull the original post from the database
+        // Pull the original post from the database
         $post_id = url_to_postid( $timemap_url );
 
-        # If it doesn't exist, throw a 404 error
+        // If it doesn't exist, throw a 404 error
         if ( $post_id == 0 )
         {
            include( get_query_template( '404' ) );
            exit;
         }
 
-        # Render the timemap response
+        // Render the timemap response
         $charset = get_option( 'blog_charset' );
         header( 'Content-Type: application/link-format; charset=' . $charset );
         $post = get_post( $post_id );
@@ -137,7 +136,7 @@ function wp_memento_catch_vars()
         array_unshift( $revision_list, $post );
         include( 'timemap-list.php' );
 
-        # Finish
+        // Finish
         exit;
     }
 }
@@ -154,7 +153,7 @@ function wp_memento_add_headers() {
         $revision_id = get_query_var( 'revision' );
         if ( wp_is_post_revision( $revision_id ) )
         {
-            # Add Memento-Datetime header
+            // Add Memento-Datetime header
             $revision = wp_get_post_revision( $revision_id );
             header( 'Momento-Datetime: ' . $revision->post_date_gmt . " GMT;" );
             $original_post = get_post( $revision->post_parent );
@@ -166,7 +165,7 @@ function wp_memento_add_headers() {
         } else {
             if ( is_single( $revision_id ) )
             {
-                # Do nothing
+                // Do nothing
             } else {
                include( get_query_template( '404' ) );
                exit;
@@ -180,37 +179,37 @@ function wp_memento_add_headers() {
  * reformts elements of the template to publish content from older revisions
  */
 add_filter( 'the_content', 'wp_momento_content_filter' );
-#add_filter('single_post_title', 'prd_display_post_revisions');
-#add_filter('the_title', 'prd_display_post_revisions');
+//add_filter('single_post_title', 'prd_display_post_revisions');
+//add_filter('the_title', 'prd_display_post_revisions');
 function wp_momento_content_filter( $content )
 {
     if( is_singular() && get_query_var( 'revision' ) )
     {
-        # Get the revision id
+        // Get the revision id
         $revision_id = get_query_var( 'revision' );
-        # Verify that it is a revision
+        // Verify that it is a revision
         if( wp_is_post_revision( $revision_id ) )
         {
-            # Remove the filer to avoid triggering an infinite loop
+            // Remove the filer to avoid triggering an infinite loop
             remove_filter( 'the_content', 'wp_momento_content_filter' );
-            # Query this revision from the database
+            // Query this revision from the database
             $revision_id = get_query_var( 'revision' );
             $revision = wp_get_post_revision( $revision_id );
-            # Render the content using this older data
+            // Render the content using this older data
             $rev_content = apply_filters( 'the_content', $revision->post_content );
-            # Put the filter override back on so we can use it again
+            // Put the filter override back on so we can use it again
             add_filter( 'the_content', 'wp_momento_content_filter' );
-            # Return the revision content
+            // Return the revision content
             return $rev_content;
         }
-        # If this a normal post and not a revision
-        # then nothing special should happen
+        // If this a normal post and not a revision
+        // then nothing special should happen
         if( is_single( $revision_id ) )
         {
             return $content;
         }
-        # If it's none of the above just return the normal content.
-        # Through perhaps we should have this raise a 404 or something.
+        // If it's none of the above just return the normal content.
+        // Through perhaps we should have this raise a 404 or something.
         return $content;
     } else {
         return $content;
