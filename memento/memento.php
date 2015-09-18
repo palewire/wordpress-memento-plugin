@@ -116,6 +116,10 @@ function wp_memento_catch_vars()
         //     exit();
         // }
 
+        // Parse the datetime string into a date aware object
+        // Query the database for the revision closest to that datetime
+        // Redirect the request to the detail page for that revision
+
         exit;
 
     }
