@@ -106,15 +106,16 @@ function wp_memento_catch_vars()
         }
 
         // Get the requested memento datetime
-        $accept_datetime = get_header( "Accept-Datetime" );
-
+        $headers = getallheaders();
+        $accept_datetime = $headers["Accept-Datetime"];
+        die($accept_datetime);
         // If no datetime is provided, redirect to the most recent version
-        // if( $accept_datetime == '' )
-        // {
-        //     // Do that here
-        //     wp_redirect( $timegate_url );
-        //     exit();
-        // }
+        if( $accept_datetime == '' )
+        {
+            // Do that here
+            wp_redirect( $timegate_url );
+            exit();
+        }
 
         // Parse the datetime string into a date aware object
         // Query the database for the revision closest to that datetime
