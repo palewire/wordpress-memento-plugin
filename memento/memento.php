@@ -191,6 +191,7 @@ function wp_memento_add_headers() {
     }
 }
 
+
 /**
  * Allows the creation of detail pages for each post revision and
  * reformats elements of the template to publish content from older revisions
