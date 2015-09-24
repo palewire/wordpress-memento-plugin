@@ -140,10 +140,13 @@ function wp_memento_catch_vars()
             // Key it into a new array using that difference
             $revision_array[$diff] = $r;
         }
+
         // Resort the array so the one with the smallest difference is first
         ksort($revision_array);
+
         // Pull out that closest revision from array
         $nearest_revision = array_values($revision_array)[0];
+
         // Redirect the request to the detail page for that revision
         $permalink = get_revision_permalink(
             $nearest_revision->parent_post,
