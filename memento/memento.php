@@ -121,28 +121,36 @@ function wp_memento_catch_vars()
         if(count(date_parse($accept_datetime)['errors']) > 0)
         {
             header( 'HTTP/1.1 400 BAD REQUEST' );
-            exit;
+            exit();
         }
 
         // Parse the datetime string into a date aware object
         $accept_datetime = new DateTime($accept_datetime);
 
-        // die(print_r($accept_datetime));
-        // Query the database for the revision closest to that datetime
+        // Query all of the revisions for this post
         $revisions = get_post_revisions($post_id);
+
+        // Loop through all of the posts ...
         $revision_array = Array();
         foreach ($revisions as &$r) {
+            // And for each one pull the datetime
             $date = new DateTime($r->post_date_gmt);
+            // And compare it against the submitted memento request
             $diff = abs($date->getTimestamp() - $accept_datetime->getTimestamp());
+            // Key it into a new array using that difference
             $revision_array[$diff] = $r;
         }
+        // Resort the array so the one with the smallest difference is first
         ksort($revision_array);
+        // Pull out that closest revision from array
         $nearest_revision = array_values($revision_array)[0];
         // Redirect the request to the detail page for that revision
-        $permalink = get_revision_permalink($nearest_revision->parent_post, $nearest_revision);
+        $permalink = get_revision_permalink(
+            $nearest_revision->parent_post,
+            $nearest_revision
+        );
         wp_redirect( $permalink );
-        exit;
-
+        exit();
     }
     // Handle a timemap list request
     if( get_query_var( 'timemap_url' ) )
