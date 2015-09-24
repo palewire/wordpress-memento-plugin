@@ -16,3 +16,4 @@ fabfile/env.py
 chef/cookbooks/palewire/files/default/users/*
 chef/node.json
 *.pyc
+test.py

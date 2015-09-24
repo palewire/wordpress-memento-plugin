@@ -108,7 +108,7 @@ function wp_memento_catch_vars()
         // Get the requested memento datetime
         $headers = getallheaders();
         $accept_datetime = $headers["Accept-Datetime"];
-        die($accept_datetime);
+
         // If no datetime is provided, redirect to the most recent version
         if( $accept_datetime == '' )
         {
@@ -117,10 +117,30 @@ function wp_memento_catch_vars()
             exit();
         }
 
-        // Parse the datetime string into a date aware object
-        // Query the database for the revision closest to that datetime
-        // Redirect the request to the detail page for that revision
+        // Verify that the provided datetime is valid
+        if(count(date_parse($accept_datetime)['errors']) > 0)
+        {
+            header( 'HTTP/1.1 400 BAD REQUEST' );
+            exit;
+        }
 
+        // Parse the datetime string into a date aware object
+        $accept_datetime = new DateTime($accept_datetime);
+
+        // die(print_r($accept_datetime));
+        // Query the database for the revision closest to that datetime
+        $revisions = get_post_revisions($post_id);
+        $revision_array = Array();
+        foreach ($revisions as &$r) {
+            $date = new DateTime($r->post_date_gmt);
+            $diff = abs($date->getTimestamp() - $accept_datetime->getTimestamp());
+            $revision_array[$diff] = $r;
+        }
+        ksort($revision_array);
+        $nearest_revision = array_values($revision_array)[0];
+        // Redirect the request to the detail page for that revision
+        $permalink = get_revision_permalink($nearest_revision->parent_post, $nearest_revision);
+        wp_redirect( $permalink );
         exit;
 
     }
