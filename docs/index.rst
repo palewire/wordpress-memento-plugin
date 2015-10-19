@@ -81,3 +81,23 @@ each revision at the end, like this:
 Visit one of the URLs in the list and you will see the new revision page added by the plugin.
 The page will look identical to the standard post page, but feature the content from the archived
 version of the post instead.
+
+.. code:: bash
+
+    Picture of revision post page now
+
+Another way to navigate to a revision page is via the "TimeGate" redirection service.
+Requests that submit a post URL with a timestamp in the ``Accept-Datetime`` header will be automatically
+rerouted to nearest revision.
+
+You can see it in action by submitting a request from the command line via curl:
+
+.. code:: bash
+
+    $ curl -X GET -I http://myblog.com/timegate/http://myblog.com/2015/08/17/hello-world/ --header "Accept-Datetime: Mon, 27 July 2015 01:00:00 GMT"
+
+Which returns a 302 redirect that looks like this:
+
+.. code:: bash
+
+    curl response stdout here
