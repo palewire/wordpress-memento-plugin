@@ -71,10 +71,13 @@ That should return a `link-format <http://tools.ietf.org/html/rfc5988>`_ list wi
 .. code:: xml
     TimeMap example code goes here.
 
-Visit one of the URLs in the list directly and you will see the new revision page added by the plugin.
-It should look similar to the post you selected, but include the unique identifier number of
-each revision at the end of the URL, like this:
+The revision URL should look similar to the post you selected, but include the unique identifier number of
+each revision at the end, like this:
 
 .. code:: bash
 
     http://myblog.com/2015/08/17/hello-world/?revision=7
+
+Visit one of the URLs in the list and you will see the new revision page added by the plugin.
+The page will look identical to the standard post page, but feature the content from the archived
+version of the post instead.
