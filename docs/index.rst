@@ -28,3 +28,12 @@ support `the Memento system <http://www.mementoweb.org/guide/quick-intro/>`_ by:
 * Publishing a `"TimeMap" <http://mementoweb.org/guide/rfc/#Pattern6>`_ that lists all of the revision URLs for each post in your archive, so spiders can find and index archived revisions
 * Hosting a `"TimeGate" <http://mementoweb.org/guide/rfc/#component-1.2>`_ that handles requests that include a URL and a timestamp by redirecting to the nearest revision, so browsers and other apps can "time travel" on your site
 * Enriching post and revision URLs to include extra metadata required by the Memento system, so archived pages can be connected to each other
+
+How do I try it?
+----------------
+
+Download the source code from `the GitHub repository <https://github.com/pastpages/wordpress-memento-plugin>`_
+and install it manually on your Wordpress site using `the recommended method <https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation>`_.
+
+This software is a beta release and in active development. Please report issues,
+share your thoughts and contribute code patches `via GitHub <https://github.com/pastpages/wordpress-memento-plugin/issues>`_.
