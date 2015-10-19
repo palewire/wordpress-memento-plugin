@@ -69,3 +69,12 @@ To do that, submit the post's URL to a new TimeMap URL activated by plugin.
 That should return a `link-format <http://tools.ietf.org/html/rfc5988>`_ list with URLs that point to past revisions.
 
 .. code:: xml
+    TimeMap example code goes here.
+
+Visit one of the URLs in the list directly and you will see the new revision page added by the plugin.
+It should look similar to the post you selected, but include the unique identifier number of
+each revision at the end of the URL, like this:
+
+.. code:: bash
+
+    http://myblog.com/2015/08/17/hello-world/?revision=7
