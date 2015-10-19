@@ -50,8 +50,7 @@ and return past versions of archived URLs.</p>
 <div class="section" id="what-is-wordpress">
 <h2>What is Wordpress?<a class="headerlink" href="#what-is-wordpress" title="Permalink to this headline">¶</a></h2>
 <p>Wordpress is a <a class="reference external" href="https://en.wikipedia.org/wiki/WordPress">free and open-source content-management system</a>
-commonly used by online publishers to create blogs. It is written in the PHP
-programming language. Its modular architecture allows outside
+commonly used by online publishers to create blogs. Its modular architecture allows outside
 developers to extend its features by developing &#8220;plugins&#8221; for users to install.</p>
 </div>
 <div class="section" id="what-does-this-plugin-do">
@@ -76,6 +75,20 @@ and install it manually on your Wordpress site using <a class="reference externa
 <p>This software is a beta release and in active development. Please report issues,
 share your thoughts and contribute code patches <a class="reference external" href="https://github.com/pastpages/wordpress-memento-plugin/issues">via GitHub</a>.</p>
 </div>
+<div class="section" id="then-what-happens">
+<h2>Then what happens?<a class="headerlink" href="#then-what-happens" title="Permalink to this headline">¶</a></h2>
+<p>Once you have the plugin installed, your site will instantly support Memento.</p>
+<p>To see it in action, find the URL of a post on your site that has been revised several times
+after its initial publication. For this example, let&#8217;s assume you have a post published at the following URL:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>http://myblog.com/2015/08/17/hello-world/
+</pre></div>
+</div>
+<p>One way to find past revisions is to browse the &#8220;TimeMap&#8221; that lists them in a machine-readable format.
+To do that, submit the post&#8217;s URL to a new TimeMap URL activated by plugin.</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>http://myblog.com/timemap/http://myblog.com/2015/08/17/hello-world/
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -91,6 +104,7 @@ share your thoughts and contribute code patches <a class="reference external" hr
 <li><a class="reference internal" href="#what-is-wordpress">What is Wordpress?</a></li>
 <li><a class="reference internal" href="#what-does-this-plugin-do">What does this plugin do?</a></li>
 <li><a class="reference internal" href="#how-do-i-try-it">How do I try it?</a></li>
+<li><a class="reference internal" href="#then-what-happens">Then what happens?</a></li>
 </ul>
 </li>
 </ul>
