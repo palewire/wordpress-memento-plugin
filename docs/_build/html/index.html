@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to wordpress-memento-plugin’s documentation! &mdash; wordpress-memento-plugin 0.0.1-beta documentation</title>
+    <title>wordpress-memento-plugin &mdash; wordpress-memento-plugin 0.0.1-beta documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -36,12 +36,35 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-wordpress-memento-plugin-s-documentation">
-<h1>Welcome to wordpress-memento-plugin&#8217;s documentation!<a class="headerlink" href="#welcome-to-wordpress-memento-plugin-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="wordpress-memento-plugin">
+<h1>wordpress-memento-plugin<a class="headerlink" href="#wordpress-memento-plugin" title="Permalink to this headline">¶</a></h1>
+<p>A plugin for Wordpress web sites to enable the Memento framework for time-based access</p>
+<div class="section" id="what-is-memento">
+<h2>What is Memento?<a class="headerlink" href="#what-is-memento" title="Permalink to this headline">¶</a></h2>
+<p>Memento is a <a class="reference external" href="http://mementoweb.org/guide/rfc/">HTTP-based framework</a>
+that &#8220;bridges the past and present web.&#8221; Sites that support it — like the
+Internet Archive and the Library of Congress — accept time-based web requests
+and return past versions of archived URLs.</p>
+</div>
+<div class="section" id="what-does-this-plugin-do">
+<h2>What does this plugin do?<a class="headerlink" href="#what-does-this-plugin-do" title="Permalink to this headline">¶</a></h2>
+<p>Rather than rely on patchy third-party services for preservation, sites with
+this plugin installed instantly become their own living, digital archive.</p>
+<p>Past revisions of posts, inaccessible to users of a typical Wordpress site,
+are indexed and available for review.</p>
+<p>Once installed, this package will instantly upgrade a Wordpress site to
+support <a class="reference external" href="http://www.mementoweb.org/guide/quick-intro/">the Memento system</a> by:</p>
+<ul class="simple">
+<li>Creating a new URL for past revisions of each post stored in the Wordpress database, so archived versions are surfaced online</li>
+<li>Publishing a <a class="reference external" href="http://mementoweb.org/guide/rfc/#Pattern6">&#8220;TimeMap&#8221;</a> that lists all of the revision URLs for each post in your archive, so spiders can find and index archived revisions</li>
+<li>Hosting a <a class="reference external" href="http://mementoweb.org/guide/rfc/#component-1.2">&#8220;TimeGate&#8221;</a> that handles requests that include a URL and a timestamp by redirecting to the nearest revision, so browsers and other apps can &#8220;time travel&#8221; on your site</li>
+<li>Enriching post and revision URLs to include extra metadata required by the Memento system, so archived pages can be connected to each other</li>
+</ul>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul class="simple">
 </ul>
+</div>
 </div>
 </div>
 
@@ -50,7 +73,16 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">wordpress-memento-plugin</a><ul>
+<li><a class="reference internal" href="#what-is-memento">What is Memento?</a></li>
+<li><a class="reference internal" href="#what-does-this-plugin-do">What does this plugin do?</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>

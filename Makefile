@@ -1,4 +1,8 @@
-.PHONY: test timegate
+.PHONY: docs test timegate
+
+
+docs:
+	cd docs && make html && cd ..
 
 test:
 	clear
