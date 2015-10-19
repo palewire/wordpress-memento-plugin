@@ -1,8 +1,10 @@
-wordpress-memento-plugin
-========================
+Memento for Wordpress
+=====================
+
+.. image:: _static/plugin-logo.png
+    :alt: Memento for Wordpress logo
 
 A plugin for Wordpress web sites to enable the Memento framework for time-based access
-
 
 What is Memento?
 ----------------
@@ -11,6 +13,13 @@ Memento is a `HTTP-based framework <http://mementoweb.org/guide/rfc/>`_
 that "bridges the past and present web." Sites that support it — like the
 Internet Archive and the Library of Congress — accept time-based web requests
 and return past versions of archived URLs.
+
+What is Wordpress?
+------------------
+
+Wordpress is a `free and open-source content-management system <https://en.wikipedia.org/wiki/WordPress>`_
+commonly used by online publishers to create blogs. Its modular architecture allows outside
+developers to extend its features by developing "plugins" for users to install.
 
 What does this plugin do?
 -------------------------
