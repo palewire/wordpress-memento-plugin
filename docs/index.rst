@@ -65,3 +65,7 @@ To do that, submit the post's URL to a new TimeMap URL activated by plugin.
 .. code:: bash
 
     http://myblog.com/timemap/http://myblog.com/2015/08/17/hello-world/
+
+That should return a `link-format <http://tools.ietf.org/html/rfc5988>`_ list with URLs that point to past revisions.
+
+.. code:: xml
